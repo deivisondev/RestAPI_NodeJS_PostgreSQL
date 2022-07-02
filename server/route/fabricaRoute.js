@@ -10,7 +10,9 @@ router.get('/fabrica/:id', async function (req, res) {
 
 });
 router.post('/fabrica', async function (req, res) {
-
+    const fabrica = req.body;
+    const newFabrica = await fabricaService.saveFabrica(fabrica);
+    res.json(newFabrica);
 });
 router.put('/fabrica/:id', async function (req, res) {
 
