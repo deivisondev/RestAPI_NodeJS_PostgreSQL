@@ -81,3 +81,19 @@ test('Should update a fabrica', async function () {
     expect(updatedFabrica.rua).toBe(fabrica.rua);
     await fabricaService.deleteFabrica(fabrica.id);
 });
+
+test('Should delete a fabrica', async function () {
+    const fabrica = await fabricaService.saveFabrica({
+        id: 75,
+        cnpj: 30656908000119,
+        rua: 'R. Teste 1',
+        num: 40,
+        cidade: 'Cidade 1',
+        uf: 'AA',
+        cep: '62900000'
+    });
+
+    await request(`http://localhost:3000/fabrica/${fabrica.id}`, 'delete');
+    const fabricas = await fabricaService.getFabricas();
+    expect(fabricas).toHaveLength(24);
+});

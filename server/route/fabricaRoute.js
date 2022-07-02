@@ -7,10 +7,6 @@ router.get('/fabrica', async function (req, res) {
     res.json(fabrica);
 });
 
-router.get('/fabrica/:id', async function (req, res) {
-
-});
-
 router.post('/fabrica', async function (req, res) {
     const fabrica = req.body;
     const newFabrica = await fabricaService.saveFabrica(fabrica);
@@ -24,7 +20,8 @@ router.put('/fabrica/:id', async function (req, res) {
 });
 
 router.delete('/fabrica/:id', async function (req, res) {
-
+    await fabricaService.deleteFabrica(req.params.id);
+    res.end();
 });
 
 module.exports = router;
