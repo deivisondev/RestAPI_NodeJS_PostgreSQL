@@ -28,7 +28,7 @@ router.delete('/fabrica/:id', async function (req, res) {
 
 // setorDeProducao
 router.get('/setor-de-producao', async function (req, res) {
-    const setorDeProducao = await setorDeProducaoService.getSetorDeProducao();
+    const setorDeProducao = await setorDeProducaoService.getSetorDeProducaos();
     res.json(setorDeProducao);
 });
 

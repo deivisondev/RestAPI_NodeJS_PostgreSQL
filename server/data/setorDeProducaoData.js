@@ -9,7 +9,7 @@ exports.getSetorDeProducao = function (id_setor) {
 };
 
 exports.saveSetorDeProducao = function (setorDeProducao) {
-    return database.one('INSERT INTO SETOR_DE_PRODUCAO (ID_SETOR, LOCALIDADE, RELATORIO, DATA_HORA, QTD_MAQUINAS, QTD_FUNCIONARIOS) VALUES ($1, $2, $3, $4, $5) RETURNING *', [setorDeProducao.id_setor, setorDeProducao.localidade, setorDeProducao.relatorio, setorDeProducao.data_hora, setorDeProducao.qtd_maquinas, setorDeProducao.qtd_funcionarios]);
+    return database.one('INSERT INTO SETOR_DE_PRODUCAO (ID_SETOR, LOCALIDADE, RELATORIO, DATA_HORA, QTD_MAQUINAS, QTD_FUNCIONARIOS) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [setorDeProducao.id_setor, setorDeProducao.localidade, setorDeProducao.relatorio, setorDeProducao.data_hora, setorDeProducao.qtd_maquinas, setorDeProducao.qtd_funcionarios]);
 };
 
 exports.updateSetorDeProducao = function (id_setor, setorDeProducao) {
@@ -17,5 +17,5 @@ exports.updateSetorDeProducao = function (id_setor, setorDeProducao) {
 };
 
 exports.deleteSetorDeProducao = function (id_setor) {
-    return database.none('DELETE FROM SetorDeProducao WHERE ID = $1', [id_setor]);
+    return database.none('DELETE FROM SETOR_DE_PRODUCAO WHERE ID_SETOR = $1', [id_setor]);
 };

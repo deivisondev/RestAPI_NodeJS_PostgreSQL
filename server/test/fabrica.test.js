@@ -2,15 +2,15 @@ const axios = require('axios');
 const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 
-const idTest1 = 75, idTest2 = 76, idTest3 = 77;
+const idTest1 = 81, idTest2 = 82, idTest3 = 83;
 
 const request = function (url, method, data) {
     return axios({ url, method, data });
 }
 
 // fabrica
-test('Should get fabrica', async function () {
-    const fabrica1 = {
+test('Should get fabricas', async function () {
+    const fabrica1 = await fabricaService.saveFabrica({
         id: idTest1,
         cnpj: 30656908000119,
         rua: 'R. Teste 1',
@@ -18,9 +18,9 @@ test('Should get fabrica', async function () {
         cidade: 'Cidade 1',
         uf: 'AA',
         cep: '62900000'
-    };
+    });
 
-    const fabrica2 = {
+    const fabrica2 = await fabricaService.saveFabrica({
         id: idTest2,
         cnpj: 69997727000191,
         rua: 'R. Teste 2',
@@ -28,9 +28,9 @@ test('Should get fabrica', async function () {
         cidade: 'Cidade 2',
         uf: 'AB',
         cep: '62900000'
-    };
+    });
 
-    const fabrica3 = {
+    const fabrica3 = await fabricaService.saveFabrica({
         id: idTest3,
         cnpj: 16495879000120,
         rua: 'R. Teste 3',
@@ -38,12 +38,12 @@ test('Should get fabrica', async function () {
         cidade: 'Cidade 3',
         uf: 'AC',
         cep: '62900000'
-    };
+    });
 
     const response = await request('http://localhost:3000/fabrica', 'get');
     const fabrica = response.data;
 
-    expect(fabrica).toHaveLength(24);
+    expect(fabrica).toHaveLength(30);
 
     await fabricaService.deleteFabrica(fabrica1.id);
     await fabricaService.deleteFabrica(fabrica2.id);
@@ -108,38 +108,38 @@ test('Should delete a fabrica', async function () {
 });
 
 //setorDeProducao
-test('Should get setorDeProducao', async function () {
-    const setorDeProducao1 = {
+test('Should get setorDeProducaos', async function () {
+    const setorDeProducao1 = await setorDeProducaoService.saveSetorDeProducao({
         id_setor: idTest1,
         localidade: '12345678',
         relatorio: 'AAAAA',
-        data_hora: "2022-04-17 00:00:00",
+        data_hora: "2022-01-08 00:00:00",
         qtd_maquinas: 1,
         qtd_funcionarios: 1
-    };
+    });
 
-    const setorDeProducao2 = {
+    const setorDeProducao2 = await setorDeProducaoService.saveSetorDeProducao({
         id_setor: idTest2,
         localidade: 'AAAAA',
         relatorio: 'AAAAA',
-        data_hora: "2022-04-17 00:00:00",
+        data_hora: "2022-01-08 00:00:00",
         qtd_maquinas: 1,
         qtd_funcionarios: 1
-    };
+    });
 
-    const setorDeProducao3 = {
+    const setorDeProducao3 = await setorDeProducaoService.saveSetorDeProducao({
         id_setor: idTest3,
         localidade: 'AAAAA',
         relatorio: 'AAAAA',
-        data_hora: "2022-04-17 00:00:00",
+        data_hora: "2022-01-08 00:00:00",
         qtd_maquinas: 1,
         qtd_funcionarios: 1
-    };
+    });
 
     const response = await request('http://localhost:3000/setor-de-producao', 'get');
     const setorDeProducao = response.data;
 
-    expect(setorDeProducao).toHaveLength(24);
+    expect(setorDeProducao).toHaveLength(13);
 
     await setorDeProducaoService.deleteSetorDeProducao(setorDeProducao1.id_setor);
     await setorDeProducaoService.deleteSetorDeProducao(setorDeProducao2.id_setor);
