@@ -13,7 +13,7 @@ exports.saveSetorDeProducao = function (setorDeProducao) {
 };
 
 exports.updateSetorDeProducao = function (id_setor, setorDeProducao) {
-    return database.none('UPDATE SetorDeProducao SET LOCALIDADE = $1, RELATORIO = $2, DATA_HORA = $3, QTD_MAQUINAS = $4, QTD_FUNCIONARIOS = $5 WHERE ID = $6', [setorDeProducao.cnpj, setorDeProducao.rua, setorDeProducao.num, setorDeProducao.cidade, setorDeProducao.uf, setorDeProducao.cep, id_setor]);
+    return database.none('UPDATE SetorDeProducao SET LOCALIDADE = $1, RELATORIO = $2, DATA_HORA = $3, QTD_MAQUINAS = $4, QTD_FUNCIONARIOS = $5 WHERE ID = $6', [setorDeProducao.localidade, setorDeProducao.relatorio, setorDeProducao.data_hora, setorDeProducao.qtd_maquinas, setorDeProducao.qtd_funcionarios, id_setor]);
 };
 
 exports.deleteSetorDeProducao = function (id_setor) {
