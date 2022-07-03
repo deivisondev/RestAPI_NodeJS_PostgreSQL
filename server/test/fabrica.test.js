@@ -269,16 +269,16 @@ test('Should save maquina', async function () {
 });
 
 test('Should update a maquina', async function () {
-    const maquina = {
+    const maquina = await maquinaService.saveMaquina({
         id_tag: idTest1,
         id_setor: 1,
         nome_maquina: 'AAAA'
-    };
+    });
 
     maquina.nome_maquina = 'BBBB';
 
     await request(`http://localhost:3000/maquina/${maquina.id_tag}`, 'put', maquina);
-    const updatedMaquina = await maquinaService.getMaquina(maquina.id);
+    const updatedMaquina = await maquinaService.getMaquina(maquina.id_tag);
 
     expect(updatedMaquina.nome_maquina).toBe(maquina.nome_maquina);
 
@@ -286,11 +286,11 @@ test('Should update a maquina', async function () {
 });
 
 test('Should delete a maquina', async function () {
-    const maquina = {
+    const maquina = await maquinaService.saveMaquina({
         id_tag: idTest1,
         id_setor: 1,
         nome_maquina: 'AAAA'
-    };
+    });
 
     await request(`http://localhost:3000/maquina/${maquina.id_tag}`, 'delete');
     const maquinas = await maquinaService.getMaquinas();
