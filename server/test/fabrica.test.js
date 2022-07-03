@@ -198,7 +198,7 @@ test('Should save funcionario', async function () {
     await funcionarioService.deleteFuncionario(data.id_mat);
 });
 
-test.only('Should update a funcionario', async function () {
+test('Should update a funcionario', async function () {
     const funcionario = await funcionarioService.saveFuncionario({
         id_mat: idTest1,
         id_setor: 1,
@@ -220,7 +220,7 @@ test.only('Should update a funcionario', async function () {
 });
 
 test('Should delete a funcionario', async function () {
-    const funcionario = await funcionarioService.savefuncionario({
+    const funcionario = await funcionarioService.saveFuncionario({
         id_mat: idTest1,
         id_setor: 1,
         nome: 'AAAAA',
@@ -231,7 +231,7 @@ test('Should delete a funcionario', async function () {
     });
 
     await request(`http://localhost:3000/funcionario/${funcionario.id_mat}`, 'delete');
-    const funcionarios = await funcionarioService.geFuncionarios();
+    const funcionarios = await funcionarioService.getFuncionarios();
 
-    expect(funcionarios).toHaveLength(24);
+    expect(funcionarios).toHaveLength(19);
 });
