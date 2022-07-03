@@ -122,7 +122,7 @@ test('Should save setorDeProducao', async function () {
     await setorDeProducaoService.deleteSetorDeProducao(data.id_setor);
 });
 
-test.only('Should update a setorDeProducao', async function () {
+test('Should update a setorDeProducao', async function () {
     const setorDeProducao = await setorDeProducaoService.saveSetorDeProducao({
         id_setor: idTest1,
         localidade: 'AAAAA',
@@ -143,7 +143,7 @@ test.only('Should update a setorDeProducao', async function () {
 });
 
 test('Should delete a setorDeProducao', async function () {
-    const setorDeProducao = await setorDeProducaoService.savesetorDeProducao({
+    const setorDeProducao = await setorDeProducaoService.saveSetorDeProducao({
         id_setor: idTest1,
         localidade: 'AAAAA',
         relatorio: 'AAAAA',
@@ -153,7 +153,7 @@ test('Should delete a setorDeProducao', async function () {
     });
 
     await request(`http://localhost:3000/setor-de-producao/${setorDeProducao.id_setor}`, 'delete');
-    const setorDeProducaos = await setorDeProducaoService.getsetorDeProducaos();
+    const setorDeProducaos = await setorDeProducaoService.getSetorDeProducaos();
     
-    expect(setorDeProducaos).toHaveLength(24);
+    expect(setorDeProducaos).toHaveLength(18);
 });
