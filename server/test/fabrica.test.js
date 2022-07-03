@@ -2,7 +2,7 @@ const axios = require('axios');
 const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 
-const idTest1 = 89;
+const idTest1 = 93;
 
 const request = function (url, method, data) {
     return axios({ url, method, data });
@@ -104,7 +104,7 @@ test('Should get setorDeProducaos', async function () {
     await setorDeProducaoService.deleteSetorDeProducao(setorDeProducao1.id_setor);
 });
 
-test.only('Should save setorDeProducao', async function () {
+test('Should save setorDeProducao', async function () {
     const data = {
         id_setor: idTest1,
         localidade: 'AAAAA',
@@ -122,7 +122,7 @@ test.only('Should save setorDeProducao', async function () {
     await setorDeProducaoService.deleteSetorDeProducao(data.id_setor);
 });
 
-test('Should update a setorDeProducao', async function () {
+test.only('Should update a setorDeProducao', async function () {
     const setorDeProducao = await setorDeProducaoService.saveSetorDeProducao({
         id_setor: idTest1,
         localidade: 'AAAAA',
@@ -137,7 +137,7 @@ test('Should update a setorDeProducao', async function () {
     await request(`http://localhost:3000/setor-de-producao/${setorDeProducao.id_setor}`, 'put', setorDeProducao);
     const updatedSetorDeProducao = await setorDeProducaoService.getSetorDeProducao(setorDeProducao.id_setor);
 
-    expect(updatedSetorDeProducao.localidade).toBe(SetorDeProducao.localidade);
+    expect(updatedSetorDeProducao.localidade).toBe(setorDeProducao.localidade);
 
     await setorDeProducaoService.deleteSetorDeProducao(setorDeProducao.id_setor);
 });
