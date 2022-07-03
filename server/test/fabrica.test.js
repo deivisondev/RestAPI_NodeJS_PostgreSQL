@@ -160,7 +160,7 @@ test('Should delete a setorDeProducao', async function () {
 });
 
 // funcionario
-test.only('Should get funcionarios', async function () {
+test('Should get funcionarios', async function () {
     const funcionario1 = await funcionarioService.saveFuncionario({
         id_mat: idTest1,
         id_setor: 1,
