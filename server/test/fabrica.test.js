@@ -4,7 +4,7 @@ const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
 
-const idTest1 = 94;
+const idTest1 = 101;
 
 const request = function (url, method, data) {
     return axios({ url, method, data });
@@ -238,7 +238,7 @@ test('Should delete a funcionario', async function () {
 });
 
 // maquina
-test.only('Should get maquinas', async function () {
+test('Should get maquinas', async function () {
     const maquina1 = await maquinaService.saveMaquina({
         id_tag: idTest1,
         id_setor: 1,
@@ -254,26 +254,26 @@ test.only('Should get maquinas', async function () {
 });
 
 test('Should save maquina', async function () {
-    const data = await maquinaService.saveMaquina({
+    const data = {
         id_tag: idTest1,
-        id_setor: 1,
+        id_setor: 4,
         nome_maquina: 'AAAA'
-    });
+    };
 
     const response = await request('http://localhost:3000/maquina', 'post', data);
     const maquina = response.data;
 
-    expect(maquina.rua).toBe(data.rua);
+    expect(maquina.nome_maquina).toBe(data.nome_maquina);
 
     await maquinaService.deleteMaquina(data.id_tag);
 });
 
 test('Should update a maquina', async function () {
-    const maquina = await maquinaService.saveMaquina({
+    const maquina = {
         id_tag: idTest1,
         id_setor: 1,
         nome_maquina: 'AAAA'
-    });
+    };
 
     maquina.nome_maquina = 'BBBB';
 
@@ -286,11 +286,11 @@ test('Should update a maquina', async function () {
 });
 
 test('Should delete a maquina', async function () {
-    const maquina = await maquinaService.saveMaquina({
+    const maquina = {
         id_tag: idTest1,
         id_setor: 1,
         nome_maquina: 'AAAA'
-    });
+    };
 
     await request(`http://localhost:3000/maquina/${maquina.id_tag}`, 'delete');
     const maquinas = await maquinaService.getMaquinas();
