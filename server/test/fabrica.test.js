@@ -198,8 +198,8 @@ test('Should save funcionario', async function () {
     await funcionarioService.deleteFuncionario(data.id_mat);
 });
 
-test('Should update a funcionario', async function () {
-    const funcionario = await funcionarioService.savefuncionario({
+test.only('Should update a funcionario', async function () {
+    const funcionario = await funcionarioService.saveFuncionario({
         id_mat: idTest1,
         id_setor: 1,
         nome: 'AAAAA',
