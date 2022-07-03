@@ -295,5 +295,5 @@ test('Should delete a maquina', async function () {
     await request(`http://localhost:3000/maquina/${maquina.id_tag}`, 'delete');
     const maquinas = await maquinaService.getMaquinas();
 
-    expect(maquinas).toHaveLength(24);
+    expect(maquinas).toHaveLength(11);
 });
