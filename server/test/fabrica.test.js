@@ -1,8 +1,9 @@
 const axios = require('axios');
 const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
+const funcionarioService = require('../service/funcionarioService');
 
-const idTest1 = 93;
+const idTest1 = 94;
 
 const request = function (url, method, data) {
     return axios({ url, method, data });
@@ -156,4 +157,81 @@ test('Should delete a setorDeProducao', async function () {
     const setorDeProducaos = await setorDeProducaoService.getSetorDeProducaos();
     
     expect(setorDeProducaos).toHaveLength(18);
+});
+
+// funcionario
+test.only('Should get funcionarios', async function () {
+    const funcionario1 = await funcionarioService.saveFuncionario({
+        id_mat: idTest1,
+        id_setor: 1,
+        nome: 'AAAAA',
+        idade: 20,
+        treinamento: 'AAAAA',
+        carga_h: 40,
+        carga_h_exigida: 40
+    });
+
+    const response = await request('http://localhost:3000/funcionario', 'get');
+    const funcionario = response.data;
+
+    expect(funcionario).toHaveLength(20);
+
+    await funcionarioService.deleteFuncionario(funcionario1.id_mat);
+});
+
+test('Should save funcionario', async function () {
+    const data = {
+        id_mat: idTest1,
+        id_setor: 1,
+        nome: 'AAAAA',
+        idade: 20,
+        treinamento: 'AAAAA',
+        carga_h: 40,
+        carga_h_exigida: 40
+    };
+
+    const response = await request('http://localhost:3000/funcionario', 'post', data);
+    const funcionario = response.data;
+
+    expect(funcionario.nome).toBe(data.nome);
+
+    await funcionarioService.deleteFuncionario(data.id_mat);
+});
+
+test('Should update a funcionario', async function () {
+    const funcionario = await funcionarioService.savefuncionario({
+        id_mat: idTest1,
+        id_setor: 1,
+        nome: 'AAAAA',
+        idade: 20,
+        treinamento: 'AAAAA',
+        carga_h: 40,
+        carga_h_exigida: 40
+    });
+
+    funcionario.nome = 'BBBBB';
+
+    await request(`http://localhost:3000/funcionario/${funcionario.id_mat}`, 'put', funcionario);
+    const updatedFuncionario = await funcionarioService.getFuncionario(funcionario.id_mat);
+
+    expect(updatedFuncionario.nome).toBe(funcionario.nome);
+
+    await funcionarioService.deleteFuncionario(funcionario.id_mat);
+});
+
+test('Should delete a funcionario', async function () {
+    const funcionario = await funcionarioService.savefuncionario({
+        id_mat: idTest1,
+        id_setor: 1,
+        nome: 'AAAAA',
+        idade: 20,
+        treinamento: 'AAAAA',
+        carga_h: 40,
+        carga_h_exigida: 40
+    });
+
+    await request(`http://localhost:3000/funcionario/${funcionario.id_mat}`, 'delete');
+    const funcionarios = await funcionarioService.geFuncionarios();
+
+    expect(funcionarios).toHaveLength(24);
 });
