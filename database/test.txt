@@ -1,0 +1,97 @@
+test('Should get fabrica', async function () {
+    const fabrica1 = {
+        id: 70,
+        cnpj: 30656908000119,
+        rua: 'R. Teste 1',
+        num: 40,
+        cidade: 'Cidade 1',
+        uf: 'AA',
+        cep: '62900000'
+    };
+
+    const fabrica2 = {
+        id: 71,
+        cnpj: 69997727000191,
+        rua: 'R. Teste 2',
+        num: 40,
+        cidade: 'Cidade 2',
+        uf: 'AB',
+        cep: '62900000'
+    };
+
+    const fabrica3 = {
+        id: 72,
+        cnpj: 16495879000120,
+        rua: 'R. Teste 3',
+        num: 42,
+        cidade: 'Cidade 3',
+        uf: 'AC',
+        cep: '62900000'
+    };
+
+    const response = await request('http://localhost:3000/fabrica', 'get');
+    const fabrica = response.data;
+
+    expect(fabrica).toHaveLength(24);
+
+    await fabricaService.deleteFabrica(fabrica1.id);
+    await fabricaService.deleteFabrica(fabrica2.id);
+    await fabricaService.deleteFabrica(fabrica3.id);
+});
+
+test('Should save fabrica', async function () {
+    const data = {
+        id: 73,
+        cnpj: 30656908000119,
+        rua: 'R. Teste 1',
+        num: 40,
+        cidade: 'Cidade 1',
+        uf: 'AA',
+        cep: '62900000'
+    };
+
+    const response = await request('http://localhost:3000/fabrica', 'post', data);
+    const fabrica = response.data;
+
+    expect(fabrica.rua).toBe(data.rua);
+
+    await fabricaService.deleteFabrica(data.id);
+});
+
+test('Should update a fabrica', async function () {
+    const fabrica = await fabricaService.saveFabrica({
+        id: 74,
+        cnpj: 30656908000119,
+        rua: 'R. Teste 1',
+        num: 66,
+        cidade: 'Cidade 1',
+        uf: 'AA',
+        cep: '62900000'
+    });
+
+    fabrica.rua = 'R. Teste 1 Al';
+
+    await request(`http://localhost:3000/fabrica/${fabrica.id}`, 'put', fabrica);
+    const updatedFabrica = await fabricaService.getFabrica(fabrica.id);
+
+    expect(updatedFabrica.rua).toBe(fabrica.rua);
+
+    await fabricaService.deleteFabrica(fabrica.id);
+});
+
+test('Should delete a fabrica', async function () {
+    const fabrica = await fabricaService.saveFabrica({
+        id: 75,
+        cnpj: 30656908000119,
+        rua: 'R. Teste 1',
+        num: 40,
+        cidade: 'Cidade 1',
+        uf: 'AA',
+        cep: '62900000'
+    });
+
+    await request(`http://localhost:3000/fabrica/${fabrica.id}`, 'delete');
+    const fabricas = await fabricaService.getFabricas();
+    
+    expect(fabricas).toHaveLength(24);
+});
