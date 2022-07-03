@@ -2,6 +2,7 @@ const axios = require('axios');
 const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
+const maquinaService = require('../service/maquinaService');
 
 const idTest1 = 94;
 
@@ -234,4 +235,65 @@ test('Should delete a funcionario', async function () {
     const funcionarios = await funcionarioService.getFuncionarios();
 
     expect(funcionarios).toHaveLength(19);
+});
+
+// maquina
+test.only('Should get maquinas', async function () {
+    const maquina1 = await maquinaService.saveMaquina({
+        id_tag: idTest1,
+        id_setor: 1,
+        nome_maquina: 'AAAA'
+    });
+
+    const response = await request('http://localhost:3000/maquina', 'get');
+    const maquina = response.data;
+
+    expect(maquina).toHaveLength(11);
+
+    await maquinaService.deleteMaquina(maquina1.id_tag);
+});
+
+test('Should save maquina', async function () {
+    const data = await maquinaService.saveMaquina({
+        id_tag: idTest1,
+        id_setor: 1,
+        nome_maquina: 'AAAA'
+    });
+
+    const response = await request('http://localhost:3000/maquina', 'post', data);
+    const maquina = response.data;
+
+    expect(maquina.rua).toBe(data.rua);
+
+    await maquinaService.deleteMaquina(data.id_tag);
+});
+
+test('Should update a maquina', async function () {
+    const maquina = await maquinaService.saveMaquina({
+        id_tag: idTest1,
+        id_setor: 1,
+        nome_maquina: 'AAAA'
+    });
+
+    maquina.nome_maquina = 'BBBB';
+
+    await request(`http://localhost:3000/maquina/${maquina.id_tag}`, 'put', maquina);
+    const updatedMaquina = await maquinaService.getMaquina(maquina.id);
+
+    expect(updatedMaquina.nome_maquina).toBe(maquina.nome_maquina);
+
+    await maquinaService.deleteMaquina(maquina.id_tag);
+});
+
+test('Should delete a maquina', async function () {
+    const maquina = await maquinaService.saveMaquina({
+        id_tag: idTest1,
+        id_setor: 1,
+        nome_maquina: 'AAAA'
+    });
+
+    await request(`http://localhost:3000/maquina/${maquina.id_tag}`, 'delete');
+    const maquinas = await maquinaService.getMaquinas();
+
+    expect(maquinas).toHaveLength(24);
 });

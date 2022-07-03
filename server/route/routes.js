@@ -3,8 +3,9 @@ const router = express.Router();
 const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
+const maquinaService = require('../service/maquinaService');
 
-// Fabrica
+// fabrica
 router.get('/fabrica', async function (req, res) {
     const fabrica = await fabricaService.getFabricas();
     res.json(fabrica);
@@ -27,7 +28,7 @@ router.delete('/fabrica/:id', async function (req, res) {
     res.end();
 });
 
-// SetorDeProducao
+// setorDeProducao
 router.get('/setor-de-producao', async function (req, res) {
     const setorDeProducao = await setorDeProducaoService.getSetorDeProducaos();
     res.json(setorDeProducao);
@@ -50,7 +51,7 @@ router.delete('/setor-de-producao/:id', async function (req, res) {
     res.end();
 });
 
-// Funcionario
+// funcionario
 router.get('/funcionario', async function (req, res) {
     const funcionario = await funcionarioService.getFuncionarios();
     res.json(funcionario);
@@ -70,6 +71,29 @@ router.put('/funcionario/:id', async function (req, res) {
 
 router.delete('/funcionario/:id', async function (req, res) {
     await funcionarioService.deleteFuncionario(req.params.id);
+    res.end();
+});
+
+// maquina
+router.get('/maquina', async function (req, res) {
+    const maquina = await maquinaService.getMaquinas();
+    res.json(maquina);
+});
+
+router.post('/maquina', async function (req, res) {
+    const maquina = req.body;
+    const newMaquina = await maquinaService.saveMaquina(maquina);
+    res.json(newMaquina);
+});
+
+router.put('/maquina/:id', async function (req, res) {
+    const maquina = req.body;
+    await maquinaService.updateMaquina(req.params.id, maquina);
+    res.end();
+});
+
+router.delete('/maquina/:id', async function (req, res) {
+    await maquinaService.deleteMaquina(req.params.id);
     res.end();
 });
 
