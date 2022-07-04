@@ -106,7 +106,7 @@ router.get('/produto', async function (req, res) {
 
 router.post('/produto', async function (req, res) {
     const produto = req.body;
-    const newproduto = await produtoService.saveProduto(produto);
+    const newProduto = await produtoService.saveProduto(produto);
     res.json(newProduto);
 });
 

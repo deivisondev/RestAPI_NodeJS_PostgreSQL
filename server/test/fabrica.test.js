@@ -5,7 +5,7 @@ const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
 const produtoService = require('../service/produtoService');
 
-const idTest1 = 105;
+const idTest1 = 106;
 
 const request = function (url, method, data) {
     return axios({ url, method, data });
