@@ -3,8 +3,9 @@ const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
+const produtoService = require('../service/produtoService');
 
-const idTest1 = 101;
+const idTest1 = 105;
 
 const request = function (url, method, data) {
     return axios({ url, method, data });
@@ -296,4 +297,69 @@ test('Should delete a maquina', async function () {
     const maquinas = await maquinaService.getMaquinas();
 
     expect(maquinas).toHaveLength(11);
+});
+
+// produto
+test('Should get produtos', async function () {
+    const produto1 = await produtoService.saveProduto({
+        id_prod: idTest1,
+        id_tag: 1,
+        preco: 11.11,
+        cor: 'AAAAA'
+    });
+
+    const response = await request('http://localhost:3000/produto', 'get');
+    const produto = response.data;
+
+    expect(produto).toHaveLength(24);
+
+    await produtoService.deleteProduto(produto1.id_prod);
+});
+
+test('Should save produto', async function () {
+    const data = {
+        id_prod: idTest1,
+        id_tag: 1,
+        preco: 11.11,
+        cor: 'AAAAA'
+    };
+
+    const response = await request('http://localhost:3000/produto', 'post', data);
+    const produto = response.data;
+
+    expect(produto.id_prod).toBe(data.id_prod);
+
+    await produtoService.deleteProduto(data.id_prod);
+});
+
+test('Should update a produto', async function () {
+    const produto = await produtoService.saveProduto({
+        id_prod: idTest1,
+        id_tag: 1,
+        preco: 11.11,
+        cor: 'AAAAA'
+    });
+
+    produto.cor = 'BBBB';
+
+    await request(`http://localhost:3000/produto/${produto.id_prod}`, 'put', produto);
+    const updatedProduto = await produtoService.getProduto(produto.id_prod);
+
+    expect(updatedProduto.cor).toBe(produto.cor);
+
+    await produtoService.deleteProduto(produto.id_prod);
+});
+
+test('Should delete a produto', async function () {
+    const produto = await produtoService.saveProduto({
+        id_prod: idTest1,
+        id_tag: 1,
+        preco: 11.11,
+        cor: 'AAAAA'
+    });
+
+    await request(`http://localhost:3000/produto/${produto.id_prod}`, 'delete');
+    const produtos = await produtoService.getProdutos();
+
+    expect(produtos).toHaveLength(11);
 });

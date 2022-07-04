@@ -4,6 +4,7 @@ const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
+const produtoService = require('../service/produtoService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -94,6 +95,29 @@ router.put('/maquina/:id', async function (req, res) {
 
 router.delete('/maquina/:id', async function (req, res) {
     await maquinaService.deleteMaquina(req.params.id);
+    res.end();
+});
+
+// produto
+router.get('/produto', async function (req, res) {
+    const produto = await produtoService.getProdutos();
+    res.json(produto);
+});
+
+router.post('/produto', async function (req, res) {
+    const produto = req.body;
+    const newproduto = await produtoService.saveProduto(produto);
+    res.json(newProduto);
+});
+
+router.put('/produto/:id', async function (req, res) {
+    const produto = req.body;
+    await produtoService.updateProduto(req.params.id, produto);
+    res.end();
+});
+
+router.delete('/produto/:id', async function (req, res) {
+    await produtoService.deleteProduto(req.params.id);
     res.end();
 });
 
