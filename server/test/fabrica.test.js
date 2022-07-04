@@ -361,5 +361,5 @@ test('Should delete a produto', async function () {
     await request(`http://localhost:3000/produto/${produto.id_prod}`, 'delete');
     const produtos = await produtoService.getProdutos();
 
-    expect(produtos).toHaveLength(11);
+    expect(produtos).toHaveLength(24);
 });
