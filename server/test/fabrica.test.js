@@ -5,6 +5,7 @@ const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
 const produtoService = require('../service/produtoService'); 
 const dentroQualidadeService = require('../service/dentroQualidadeService');
+const foraQualidadeService = require('../service/foraQualidadeService');
 
 const idTest1 = 106;
 
@@ -420,4 +421,65 @@ test('Should delete a dentroQualidade', async function () {
     const dentroQualidades = await dentroQualidadeService.getDentroQualidades();
 
     expect(dentroQualidades).toHaveLength(10);
+});
+
+// foraQualidade
+test('Should get foraQualidades', async function () {
+    const foraQualidade1 = await foraQualidadeService.saveForaQualidade({
+        id_prod: idTest1,
+        defeito: 'AAAA',
+        peca: 'AAAA'
+    });
+
+    const response = await request('http://localhost:3000/foraQualidade', 'get');
+    const foraQualidade = response.data;
+
+    expect(foraQualidade).toHaveLength(11);
+
+    await foraQualidadeService.deleteForaQualidade(foraQualidade1.id_prod);
+});
+
+test('Should save foraQualidade', async function () {
+    const data = {
+        id_prod: idTest1,
+        defeito: 'AAAA',
+        peca: 'AAAA'
+    };
+
+    const response = await request('http://localhost:3000/foraQualidade', 'post', data);
+    const foraQualidade = response.data;
+
+    expect(foraQualidade.id_prod).toBe(data.id_prod);
+
+    await foraQualidadeService.deleteForaQualidade(data.id_prod);
+});
+
+test('Should update a foraQualidade', async function () {
+    const foraQualidade = await foraQualidadeService.saveForaQualidade({
+        id_prod: idTest1,
+        defeito: 'AAAA',
+        peca: 'AAAA'
+    });
+
+    foraQualidade.peca = 'BBBB';
+
+    await request(`http://localhost:3000/foraQualidade/${foraQualidade.id_prod}`, 'put', foraQualidade);
+    const updatedForaQualidade = await foraQualidadeService.getForaQualidade(foraQualidade.id_prod);
+
+    expect(updatedForaQualidade.peca).toBe(foraQualidade.peca);
+
+    await foraQualidadeService.deleteForaQualidade(foraQualidade.id_prod);
+});
+
+test.only('Should delete a foraQualidade', async function () {
+    const foraQualidade = await foraQualidadeService.saveForaQualidade({
+        id_prod: idTest1,
+        defeito: 'AAAA',
+        peca: 'AAAA'
+    });
+
+    await request(`http://localhost:3000/foraQualidade/${foraQualidade.id_prod}`, 'delete');
+    const foraQualidades = await foraQualidadeService.getForaQualidades();
+
+    expect(foraQualidades).toHaveLength(10);
 });

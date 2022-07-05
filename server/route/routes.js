@@ -6,6 +6,7 @@ const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
 const produtoService = require('../service/produtoService');
 const dentroQualidadeService = require('../service/dentroQualidadeService');
+const foraQualidadeService = require('../service/foraQualidadeService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -142,6 +143,29 @@ router.put('/dentroQualidade/:id', async function (req, res) {
 
 router.delete('/dentroQualidade/:id', async function (req, res) {
     await dentroQualidadeService.deleteDentroQualidade(req.params.id);
+    res.end();
+});
+
+// foraQualidade
+router.get('/foraQualidade', async function (req, res) {
+    const foraQualidade = await foraQualidadeService.getForaQualidades();
+    res.json(foraQualidade);
+});
+
+router.post('/foraQualidade', async function (req, res) {
+    const foraQualidade = req.body;
+    const newForaQualidade = await foraQualidadeService.saveForaQualidade(foraQualidade);
+    res.json(newForaQualidade);
+});
+
+router.put('/foraQualidade/:id', async function (req, res) {
+    const foraQualidade = req.body;
+    await foraQualidadeService.updateForaQualidade(req.params.id, foraQualidade);
+    res.end();
+});
+
+router.delete('/foraQualidade/:id', async function (req, res) {
+    await foraQualidadeService.deleteForaQualidade(req.params.id);
     res.end();
 });
 
