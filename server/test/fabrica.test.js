@@ -419,5 +419,5 @@ test('Should delete a dentroQualidade', async function () {
     await request(`http://localhost:3000/dentroQualidade/${dentroQualidade.id_prod}`, 'delete');
     const dentroQualidades = await dentroQualidadeService.getDentroQualidades();
 
-    expect(dentroQualidades).toHaveLength(24);
+    expect(dentroQualidades).toHaveLength(10);
 });
