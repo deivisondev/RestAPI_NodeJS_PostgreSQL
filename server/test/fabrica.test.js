@@ -3,7 +3,8 @@ const fabricaService = require('../service/fabricaService');
 const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
-const produtoService = require('../service/produtoService');
+const produtoService = require('../service/produtoService'); 
+const dentroQualidadeService = require('../service/dentroQualidadeService');
 
 const idTest1 = 106;
 
@@ -362,4 +363,61 @@ test('Should delete a produto', async function () {
     const produtos = await produtoService.getProdutos();
 
     expect(produtos).toHaveLength(24);
+});
+
+// dentroQualidade
+test('Should get dentroQualidades', async function () {
+    const dentroQualidade1 = await dentroQualidadeService.saveDentroQualidade({
+        id_prod: idTest1,
+        peca: 'AAAA'
+    });
+
+    const response = await request('http://localhost:3000/dentroQualidade', 'get');
+    const dentroQualidade = response.data;
+
+    expect(dentroQualidade).toHaveLength(11);
+
+    await dentroQualidadeService.deleteDentroQualidade(dentroQualidade1.id_prod);
+});
+
+test('Should save dentroQualidade', async function () {
+    const data = {
+        id_prod: idTest1,
+        peca: 'AAAA'
+    };
+
+    const response = await request('http://localhost:3000/dentroQualidade', 'post', data);
+    const dentroQualidade = response.data;
+
+    expect(dentroQualidade.id_prod).toBe(data.id_prod);
+
+    await dentroQualidadeService.deleteDentroQualidade(data.id_prod);
+});
+
+test('Should update a dentroQualidade', async function () {
+    const dentroQualidade = await dentroQualidadeService.saveDentroQualidade({
+        id_prod: idTest1,
+        peca: 'AAAA'
+    });
+
+    dentroQualidade.peca = 'BBBB';
+
+    await request(`http://localhost:3000/dentroQualidade/${dentroQualidade.id_prod}`, 'put', dentroQualidade);
+    const updatedDentroQualidade = await dentroQualidadeService.getDentroQualidade(dentroQualidade.id_prod);
+
+    expect(updatedDentroQualidade.peca).toBe(dentroQualidade.peca);
+
+    await dentroQualidadeService.deleteDentroQualidade(dentroQualidade.id_prod);
+});
+
+test('Should delete a dentroQualidade', async function () {
+    const dentroQualidade = await dentroQualidadeService.saveDentroQualidade({
+        id_prod: idTest1,
+        peca: 'AAAA'
+    });
+
+    await request(`http://localhost:3000/dentroQualidade/${dentroQualidade.id_prod}`, 'delete');
+    const dentroQualidades = await dentroQualidadeService.getDentroQualidades();
+
+    expect(dentroQualidades).toHaveLength(24);
 });

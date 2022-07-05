@@ -5,6 +5,7 @@ const setorDeProducaoService = require('../service/setorDeProducaoService');
 const funcionarioService = require('../service/funcionarioService');
 const maquinaService = require('../service/maquinaService');
 const produtoService = require('../service/produtoService');
+const dentroQualidadeService = require('../service/dentroQualidadeService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -118,6 +119,29 @@ router.put('/produto/:id', async function (req, res) {
 
 router.delete('/produto/:id', async function (req, res) {
     await produtoService.deleteProduto(req.params.id);
+    res.end();
+});
+
+// dentroQualidade
+router.get('/dentroQualidade', async function (req, res) {
+    const dentroQualidade = await dentroQualidadeService.getDentroQualidades();
+    res.json(dentroQualidade);
+});
+
+router.post('/dentroQualidade', async function (req, res) {
+    const dentroQualidade = req.body;
+    const newDentroQualidade = await dentroQualidadeService.saveDentroQualidade(dentroQualidade);
+    res.json(newDentroQualidade);
+});
+
+router.put('/dentroQualidade/:id', async function (req, res) {
+    const dentroQualidade = req.body;
+    await dentroQualidadeService.updateDentroQualidade(req.params.id, dentroQualidade);
+    res.end();
+});
+
+router.delete('/dentroQualidade/:id', async function (req, res) {
+    await dentroQualidadeService.deleteDentroQualidade(req.params.id);
     res.end();
 });
 
