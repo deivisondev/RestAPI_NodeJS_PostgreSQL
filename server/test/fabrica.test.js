@@ -520,7 +520,7 @@ test('Should update a reajusteDefeitos', async function () {
         id_prod: idTest1
     });
 
-    reajusteDefeitos.id_prod = 2;
+    reajusteDefeitos.id_prod = 105;
 
     await request(`http://localhost:3000/reajusteDefeitos/${reajusteDefeitos.id_setor}`, 'put', reajusteDefeitos);
     const updatedReajusteDefeitos = await reajusteDefeitosService.getReajusteDefeitos(reajusteDefeitos.id_setor);
