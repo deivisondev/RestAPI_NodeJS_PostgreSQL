@@ -530,7 +530,7 @@ test('Should update a reajusteDefeitos', async function () {
     await reajusteDefeitosService.deleteReajusteDefeitos(reajusteDefeitos.id_setor);
 });
 
-test('Should delete a reajusteDefeitos', async function () {
+test.only('Should delete a reajusteDefeitos', async function () {
     const reajusteDefeitos = await reajusteDefeitosService.saveReajusteDefeitos({
         id_setor: 1,
         id_prod: idTest1
@@ -539,5 +539,5 @@ test('Should delete a reajusteDefeitos', async function () {
     await request(`http://localhost:3000/reajusteDefeitos/${reajusteDefeitos.id_setor}`, 'delete');
     const reajusteDefeitoss = await reajusteDefeitosService.getReajusteDefeitoss();
 
-    expect(reajusteDefeitoss).toHaveLength(10);
+    expect(reajusteDefeitoss).toHaveLength(9);
 });
