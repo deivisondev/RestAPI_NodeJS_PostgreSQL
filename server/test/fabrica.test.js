@@ -544,7 +544,7 @@ test('Should delete a reajusteDefeitos', async function () {
 });
 
 //galpao
-test.only('Should get galpaos', async function () {
+test('Should get galpaos', async function () {
     const galpao1 = await galpaoService.saveGalpao({
         id_local: idTest1,
         id_prod: 1001,
@@ -576,7 +576,7 @@ test('Should save galpao', async function () {
     await galpaoService.deleteGalpao(data.id_local);
 });
 
-test('Should update a galpao', async function () {
+test.only('Should update a galpao', async function () {
     const galpao = await galpaoService.saveGalpao({
         id_local: idTest1,
         id_prod: 1001,
