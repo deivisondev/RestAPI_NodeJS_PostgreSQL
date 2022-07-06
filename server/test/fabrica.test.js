@@ -610,7 +610,7 @@ test('Should delete a galpao', async function () {
 });
 
 // cliente
-test.only('Should get clientes', async function () {
+test('Should get clientes', async function () {
     const cliente1 = await clienteService.saveCliente({
         id_cliente: idTest1,
         nome: 'AAAA',
@@ -660,7 +660,7 @@ test('Should update a cliente', async function () {
     await clienteService.deleteCliente(cliente.id_cliente);
 });
 
-test('Should delete a cliente', async function () {
+test.only('Should delete a cliente', async function () {
     const cliente = await clienteService.saveCliente({
         id_cliente: idTest1,
         nome: 'AAAA',
@@ -669,7 +669,7 @@ test('Should delete a cliente', async function () {
     });
 
     await request(`http://localhost:3000/cliente/${cliente.id_cliente}`, 'delete');
-    const clientes = await clienteService.getclientes();
+    const clientes = await clienteService.getClientes();
 
-    expect(clientes).toHaveLength(10);
+    expect(clientes).toHaveLength(20);
 });
