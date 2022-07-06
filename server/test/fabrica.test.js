@@ -576,7 +576,7 @@ test('Should save galpao', async function () {
     await galpaoService.deleteGalpao(data.id_local);
 });
 
-test.only('Should update a galpao', async function () {
+test('Should update a galpao', async function () {
     const galpao = await galpaoService.saveGalpao({
         id_local: idTest1,
         id_prod: 1001,
@@ -605,5 +605,5 @@ test('Should delete a galpao', async function () {
     await request(`http://localhost:3000/galpao/${galpao.id_local}`, 'delete');
     const galpaos = await galpaoService.getGalpaos();
 
-    expect(galpaos).toHaveLength(9);
+    expect(galpaos).toHaveLength(10);
 });
