@@ -8,6 +8,7 @@ const dentroQualidadeService = require('../service/dentroQualidadeService');
 const foraQualidadeService = require('../service/foraQualidadeService');
 const reajusteDefeitosService = require('../service/reajusteDefeitosService');
 const galpaoService = require('../service/galpaoService');
+const clienteService = require('../service/clienteService');
 
 const idTest1 = 106;
 
@@ -606,4 +607,69 @@ test('Should delete a galpao', async function () {
     const galpaos = await galpaoService.getGalpaos();
 
     expect(galpaos).toHaveLength(10);
+});
+
+// cliente
+test.only('Should get clientes', async function () {
+    const cliente1 = await clienteService.saveCliente({
+        id_cliente: idTest1,
+        nome: 'AAAA',
+        endereco: 'AAAA',
+        nome_prod: 'AAAA'
+    });
+
+    const response = await request('http://localhost:3000/cliente', 'get');
+    const cliente = response.data;
+
+    expect(cliente).toHaveLength(21);
+
+    await clienteService.deleteCliente(cliente1.id_cliente);
+});
+
+test('Should save cliente', async function () {
+    const data = {
+        id_cliente: idTest1,
+        nome: 'AAAA',
+        endereco: 'AAAA',
+        nome_prod: 'AAAA'
+    };
+
+    const response = await request('http://localhost:3000/cliente', 'post', data);
+    const cliente = response.data;
+
+    expect(cliente.id_cliente).toBe(data.id_cliente);
+
+    await clienteService.deleteCliente(data.id_cliente);
+});
+
+test('Should update a cliente', async function () {
+    const cliente = await clienteService.saveCliente({
+        id_cliente: idTest1,
+        nome: 'AAAA',
+        endereco: 'AAAA',
+        nome_prod: 'AAAA'
+    });
+
+    cliente.endereco = 'BBBB';
+
+    await request(`http://localhost:3000/cliente/${cliente.id_cliente}`, 'put', cliente);
+    const updatedCliente = await clienteService.getCliente(cliente.id_cliente);
+
+    expect(updatedCliente.endereco).toBe(cliente.endereco);
+
+    await clienteService.deleteCliente(cliente.id_cliente);
+});
+
+test('Should delete a cliente', async function () {
+    const cliente = await clienteService.saveCliente({
+        id_cliente: idTest1,
+        nome: 'AAAA',
+        endereco: 'AAAA',
+        nome_prod: 'AAAA'
+    });
+
+    await request(`http://localhost:3000/cliente/${cliente.id_cliente}`, 'delete');
+    const clientes = await clienteService.getclientes();
+
+    expect(clientes).toHaveLength(10);
 });

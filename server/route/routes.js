@@ -8,7 +8,8 @@ const produtoService = require('../service/produtoService');
 const dentroQualidadeService = require('../service/dentroQualidadeService');
 const foraQualidadeService = require('../service/foraQualidadeService');
 const reajusteDefeitosService = require('../service/reajusteDefeitosService');
-const galpaoService = require('../service/galpaoService');
+const galpaoService = require('../service/galpaoService'); 
+const clienteService = require('../service/clienteService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -214,6 +215,29 @@ router.put('/galpao/:id', async function (req, res) {
 
 router.delete('/galpao/:id', async function (req, res) {
     await galpaoService.deleteGalpao(req.params.id);
+    res.end();
+});
+
+// cliente
+router.get('/cliente', async function (req, res) {
+    const cliente = await clienteService.getClientes();
+    res.json(cliente);
+});
+
+router.post('/cliente', async function (req, res) {
+    const cliente = req.body;
+    const newCliente = await clienteService.saveCliente(cliente);
+    res.json(newCliente);
+});
+
+router.put('/cliente/:id', async function (req, res) {
+    const cliente = req.body;
+    await clienteService.updateCliente(req.params.id, cliente);
+    res.end();
+});
+
+router.delete('/cliente/:id', async function (req, res) {
+    await clienteService.deleteCliente(req.params.id);
     res.end();
 });
 
