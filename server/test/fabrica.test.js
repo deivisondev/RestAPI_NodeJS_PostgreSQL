@@ -6,6 +6,7 @@ const maquinaService = require('../service/maquinaService');
 const produtoService = require('../service/produtoService'); 
 const dentroQualidadeService = require('../service/dentroQualidadeService');
 const foraQualidadeService = require('../service/foraQualidadeService');
+const reajusteDefeitosService = require('../service/reajusteDefeitosService');
 
 const idTest1 = 106;
 
@@ -471,7 +472,7 @@ test('Should update a foraQualidade', async function () {
     await foraQualidadeService.deleteForaQualidade(foraQualidade.id_prod);
 });
 
-test.only('Should delete a foraQualidade', async function () {
+test('Should delete a foraQualidade', async function () {
     const foraQualidade = await foraQualidadeService.saveForaQualidade({
         id_prod: idTest1,
         defeito: 'AAAA',
@@ -482,4 +483,61 @@ test.only('Should delete a foraQualidade', async function () {
     const foraQualidades = await foraQualidadeService.getForaQualidades();
 
     expect(foraQualidades).toHaveLength(10);
+});
+
+// reajusteDefeitos
+test('Should get reajusteDefeitoss', async function () {
+    const reajusteDefeitos1 = await reajusteDefeitosService.saveReajusteDefeitos({
+        id_setor: 1,
+        id_prod: idTest1
+    });
+
+    const response = await request('http://localhost:3000/reajusteDefeitos', 'get');
+    const reajusteDefeitos = response.data;
+
+    expect(reajusteDefeitos).toHaveLength(10);
+
+    await reajusteDefeitosService.deleteReajusteDefeitos(reajusteDefeitos1.id_setor);
+});
+
+test('Should save reajusteDefeitos', async function () {
+    const data = {
+        id_setor: 1,
+        id_prod: idTest1
+    };
+
+    const response = await request('http://localhost:3000/reajusteDefeitos', 'post', data);
+    const reajusteDefeitos = response.data;
+
+    expect(reajusteDefeitos.id_setor).toBe(data.id_setor);
+
+    await reajusteDefeitosService.deleteReajusteDefeitos(data.id_setor);
+});
+
+test('Should update a reajusteDefeitos', async function () {
+    const reajusteDefeitos = await reajusteDefeitosService.saveReajusteDefeitos({
+        id_setor: 1,
+        id_prod: idTest1
+    });
+
+    reajusteDefeitos.id_prod = 2;
+
+    await request(`http://localhost:3000/reajusteDefeitos/${reajusteDefeitos.id_setor}`, 'put', reajusteDefeitos);
+    const updatedReajusteDefeitos = await reajusteDefeitosService.getReajusteDefeitos(reajusteDefeitos.id_setor);
+
+    expect(updatedReajusteDefeitos.id_prod).toBe(reajusteDefeitos.id_prod);
+
+    await reajusteDefeitosService.deleteReajusteDefeitos(reajusteDefeitos.id_setor);
+});
+
+test('Should delete a reajusteDefeitos', async function () {
+    const reajusteDefeitos = await reajusteDefeitosService.saveReajusteDefeitos({
+        id_setor: 1,
+        id_prod: idTest1
+    });
+
+    await request(`http://localhost:3000/reajusteDefeitos/${reajusteDefeitos.id_setor}`, 'delete');
+    const reajusteDefeitoss = await reajusteDefeitosService.getReajusteDefeitoss();
+
+    expect(reajusteDefeitoss).toHaveLength(10);
 });

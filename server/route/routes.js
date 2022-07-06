@@ -7,6 +7,7 @@ const maquinaService = require('../service/maquinaService');
 const produtoService = require('../service/produtoService');
 const dentroQualidadeService = require('../service/dentroQualidadeService');
 const foraQualidadeService = require('../service/foraQualidadeService');
+const reajusteDefeitosService = require('../service/reajusteDefeitosService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -166,6 +167,29 @@ router.put('/foraQualidade/:id', async function (req, res) {
 
 router.delete('/foraQualidade/:id', async function (req, res) {
     await foraQualidadeService.deleteForaQualidade(req.params.id);
+    res.end();
+});
+
+// reajusteDefeitos
+router.get('/reajusteDefeitos', async function (req, res) {
+    const reajusteDefeitos = await reajusteDefeitosService.getReajusteDefeitoss();
+    res.json(reajusteDefeitos);
+});
+
+router.post('/reajusteDefeitos', async function (req, res) {
+    const reajusteDefeitos = req.body;
+    const newReajusteDefeitos = await reajusteDefeitosService.saveReajusteDefeitos(reajusteDefeitos);
+    res.json(newReajusteDefeitos);
+});
+
+router.put('/reajusteDefeitos/:id', async function (req, res) {
+    const reajusteDefeitos = req.body;
+    await reajusteDefeitosService.updateReajusteDefeitos(req.params.id, reajusteDefeitos);
+    res.end();
+});
+
+router.delete('/reajusteDefeitos/:id', async function (req, res) {
+    await reajusteDefeitosService.deleteReajusteDefeitos(req.params.id);
     res.end();
 });
 
