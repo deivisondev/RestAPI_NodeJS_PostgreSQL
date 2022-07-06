@@ -13,7 +13,7 @@ exports.saveGalpao = function (Galpao) {
 };
 
 exports.updateGalpao = function (id, Galpao) {
-    return database.none('UPDATE GALPAO SET ID_LOCAL = $1, ID_PROD = $2, NUMERO = $3, ENDERECO WHERE ID_LOCAL = $4', [Galpao.numero, Galpao.endereco, id]);
+    return database.none('UPDATE GALPAO SET NUMERO = $1, ENDERECO = $2 WHERE ID_LOCAL = $3', [Galpao.numero, Galpao.endereco, id]);
 };
 
 exports.deleteGalpao = function (id) {

@@ -584,7 +584,7 @@ test.only('Should update a galpao', async function () {
         endereco: 'AAAA'
     });
 
-    galpao.endereco = 105;
+    galpao.endereco = 'BBBB';
 
     await request(`http://localhost:3000/galpao/${galpao.id_local}`, 'put', galpao);
     const updatedGalpao = await galpaoService.getGalpao(galpao.id_local);
