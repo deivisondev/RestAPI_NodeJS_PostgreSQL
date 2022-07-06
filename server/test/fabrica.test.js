@@ -7,6 +7,7 @@ const produtoService = require('../service/produtoService');
 const dentroQualidadeService = require('../service/dentroQualidadeService');
 const foraQualidadeService = require('../service/foraQualidadeService');
 const reajusteDefeitosService = require('../service/reajusteDefeitosService');
+const galpaoService = require('../service/galpaoService');
 
 const idTest1 = 106;
 
@@ -530,7 +531,7 @@ test('Should update a reajusteDefeitos', async function () {
     await reajusteDefeitosService.deleteReajusteDefeitos(reajusteDefeitos.id_setor);
 });
 
-test.only('Should delete a reajusteDefeitos', async function () {
+test('Should delete a reajusteDefeitos', async function () {
     const reajusteDefeitos = await reajusteDefeitosService.saveReajusteDefeitos({
         id_setor: 1,
         id_prod: idTest1
@@ -540,4 +541,69 @@ test.only('Should delete a reajusteDefeitos', async function () {
     const reajusteDefeitoss = await reajusteDefeitosService.getReajusteDefeitoss();
 
     expect(reajusteDefeitoss).toHaveLength(9);
+});
+
+//galpao
+test.only('Should get galpaos', async function () {
+    const galpao1 = await galpaoService.saveGalpao({
+        id_local: idTest1,
+        id_prod: 1001,
+        numero: 1,
+        endereco: 'AAAA'
+    });
+
+    const response = await request('http://localhost:3000/galpao', 'get');
+    const galpao = response.data;
+
+    expect(galpao).toHaveLength(11);
+
+    await galpaoService.deleteGalpao(galpao1.id_local);
+});
+
+test('Should save galpao', async function () {
+    const data = {
+        id_local: idTest1,
+        id_prod: 1001,
+        numero: 1,
+        endereco: 'AAAA'
+    };
+
+    const response = await request('http://localhost:3000/galpao', 'post', data);
+    const galpao = response.data;
+
+    expect(galpao.id_local).toBe(data.id_local);
+
+    await galpaoService.deleteGalpao(data.id_local);
+});
+
+test('Should update a galpao', async function () {
+    const galpao = await galpaoService.saveGalpao({
+        id_local: idTest1,
+        id_prod: 1001,
+        numero: 1,
+        endereco: 'AAAA'
+    });
+
+    galpao.endereco = 105;
+
+    await request(`http://localhost:3000/galpao/${galpao.id_local}`, 'put', galpao);
+    const updatedGalpao = await galpaoService.getGalpao(galpao.id_local);
+
+    expect(updatedGalpao.endereco).toBe(galpao.endereco);
+
+    await galpaoService.deleteGalpao(galpao.id_local);
+});
+
+test('Should delete a galpao', async function () {
+    const galpao = await galpaoService.saveGalpao({
+        id_local: idTest1,
+        id_prod: 1001,
+        numero: 1,
+        endereco: 'AAAA'
+    });
+
+    await request(`http://localhost:3000/galpao/${galpao.id_local}`, 'delete');
+    const galpaos = await galpaoService.getGalpaos();
+
+    expect(galpaos).toHaveLength(9);
 });
