@@ -10,6 +10,7 @@ const foraQualidadeService = require('../service/foraQualidadeService');
 const reajusteDefeitosService = require('../service/reajusteDefeitosService');
 const galpaoService = require('../service/galpaoService'); 
 const clienteService = require('../service/clienteService');
+const galpClienteService = require('../service/galpClienteService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -238,6 +239,29 @@ router.put('/cliente/:id', async function (req, res) {
 
 router.delete('/cliente/:id', async function (req, res) {
     await clienteService.deleteCliente(req.params.id);
+    res.end();
+});
+
+// galpCliente
+router.get('/galpCliente', async function (req, res) {
+    const galpCliente = await galpClienteService.getGalpClientes();
+    res.json(galpCliente);
+});
+
+router.post('/galpCliente', async function (req, res) {
+    const galpCliente = req.body;
+    const newGalpCliente = await galpClienteService.saveGalpCliente(galpCliente);
+    res.json(newGalpCliente);
+});
+
+router.put('/galpCliente/:id', async function (req, res) {
+    const galpCliente = req.body;
+    await galpClienteaService.updateGalpCliente(req.params.id, galpCliente);
+    res.end();
+});
+
+router.delete('/galpCliente/:id', async function (req, res) {
+    await galpClienteService.deleteGalpCliente(req.params.id);
     res.end();
 });
 
