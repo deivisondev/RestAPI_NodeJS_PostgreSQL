@@ -11,6 +11,7 @@ const reajusteDefeitosService = require('../service/reajusteDefeitosService');
 const galpaoService = require('../service/galpaoService'); 
 const clienteService = require('../service/clienteService');
 const galpClienteService = require('../service/galpClienteService');
+const pessoaFisicaService = require('../service/pessoaFisicaService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -262,6 +263,29 @@ router.put('/galpCliente/:id', async function (req, res) {
 
 router.delete('/galpCliente/:id', async function (req, res) {
     await galpClienteService.deleteGalpCliente(req.params.id);
+    res.end();
+});
+
+// pessoaFisica
+router.get('/pessoaFisica', async function (req, res) {
+    const pessoaFisica = await pessoaFisicaService.getPessoaFisicas();
+    res.json(pessoaFisica);
+});
+
+router.post('/pessoaFisica', async function (req, res) {
+    const pessoaFisica = req.body;
+    const newPessoaFisica = await pessoaFisicaService.savePessoaFisica(pessoaFisica);
+    res.json(newPessoaFisica);
+});
+
+router.put('/pessoaFisica/:id', async function (req, res) {
+    const pessoaFisica = req.body;
+    await pessoaFisicaService.updatePessoaFisica(req.params.id, pessoaFisica);
+    res.end();
+});
+
+router.delete('/pessoaFisica/:id', async function (req, res) {
+    await pessoaFisicaService.deletePessoaFisica(req.params.id);
     res.end();
 });
 

@@ -9,7 +9,8 @@ const foraQualidadeService = require('../service/foraQualidadeService');
 const reajusteDefeitosService = require('../service/reajusteDefeitosService');
 const galpaoService = require('../service/galpaoService');
 const clienteService = require('../service/clienteService');
-const galpClienteService = require('../service/galpClienteService');
+const galpClienteService = require('../service/galpClienteService'); 
+const pessoaFisicaService = require('../service/pessoaFisicaService');
 
 const idTest1 = 106;
 
@@ -720,7 +721,7 @@ test('Should update a galpCliente', async function () {
     await galpClienteService.deleteGalpCliente(galpCliente.id_local);
 });
 
-test.only('Should delete a galpCliente', async function () {
+test('Should delete a galpCliente', async function () {
     const galpCliente = await galpClienteService.saveGalpCliente({
         id_local: 3668,
         id_cliente: 1234
@@ -730,4 +731,65 @@ test.only('Should delete a galpCliente', async function () {
     const galpClientes = await galpClienteService.getGalpClientes();
 
     expect(galpClientes).toHaveLength(16);
+});
+
+// pessoaFisica
+test('Should get pessoaFisicas', async function () {
+    const pessoaFisica1 = await pessoaFisicaService.savePessoaFisica({
+        id_cliente: 1234,
+        cic: 14018512478,
+        sexo: 'A'
+    });
+
+    const response = await request('http://localhost:3000/pessoaFisica', 'get');
+    const pessoaFisica = response.data;
+
+    expect(pessoaFisica).toHaveLength(10);
+
+    await pessoaFisicaService.deletePessoaFisica(pessoaFisica1.id_cliente);
+});
+
+test('Should save pessoaFisica', async function () {
+    const data = {
+        id_cliente: 1234,
+        cic: 14018512478,
+        sexo: 'A'
+    };
+
+    const response = await request('http://localhost:3000/pessoaFisica', 'post', data);
+    const pessoaFisica = response.data;
+
+    expect(pessoaFisica.id_cliente).toBe(data.id_cliente);
+
+    await pessoaFisicaService.deletePessoaFisica(data.id_cliente);
+});
+
+test('Should update a pessoaFisica', async function () {
+    const pessoaFisica = await pessoaFisicaService.savePessoaFisica({
+        id_cliente: 1234,
+        cic: 14018512478,
+        sexo: 'A'
+    });
+
+    pessoaFisica.cic = 27691967146;
+
+    await request(`http://localhost:3000/pessoaFisica/${pessoaFisica.id_cliente}`, 'put', pessoaFisica);
+    const updatedPessoaFisica = await pessoaFisicaService.getPessoaFisica(pessoaFisica.id_cliente);
+
+    expect(updatedpessoaFisica.cic).toBe(pessoaFisica.cic);
+
+    await pessoaFisicaService.deletePessoaFisica(pessoaFisica.id_cliente);
+});
+
+test('Should delete a pessoaFisica', async function () {
+    const pessoaFisica = await pessoaFisicaService.savePessoaFisica({
+        id_cliente: 1234,
+        cic: 14018512478,
+        sexo: 'A'
+    });
+
+    await request(`http://localhost:3000/pessoaFisica/${pessoaFisica.id_cliente}`, 'delete');
+    const pessoaFisicas = await pessoaFisicaService.getPessoaFisicas();
+
+    expect(pessoaFisicas).toHaveLength(9);
 });
