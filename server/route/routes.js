@@ -12,6 +12,7 @@ const galpaoService = require('../service/galpaoService');
 const clienteService = require('../service/clienteService');
 const galpClienteService = require('../service/galpClienteService');
 const pessoaFisicaService = require('../service/pessoaFisicaService');
+const pessoaJuridicaService = require('../service/pessoaJuridicaService');
 
 // fabrica
 router.get('/fabrica', async function (req, res) {
@@ -286,6 +287,29 @@ router.put('/pessoaFisica/:id', async function (req, res) {
 
 router.delete('/pessoaFisica/:id', async function (req, res) {
     await pessoaFisicaService.deletePessoaFisica(req.params.id);
+    res.end();
+});
+
+// pessoaJuridica
+router.get('/pessoaJuridica', async function (req, res) {
+    const pessoaJuridica = await pessoaJuridicaService.getPessoaJuridicas();
+    res.json(pessoaJuridica);
+});
+
+router.post('/pessoaJuridica', async function (req, res) {
+    const pessoaJuridica = req.body;
+    const newPessoaJuridica = await pessoaJuridicaService.savePessoaJuridica(pessoaJuridica);
+    res.json(newPessoaJuridica);
+});
+
+router.put('/pessoaJuridica/:id', async function (req, res) {
+    const pessoaJuridica = req.body;
+    await pessoaJuridicaService.updatePessoaJuridica(req.params.id, pessoaJuridica);
+    res.end();
+});
+
+router.delete('/pessoaJuridica/:id', async function (req, res) {
+    await pessoaJuridicaService.deletePessoaJuridica(req.params.id);
     res.end();
 });
 

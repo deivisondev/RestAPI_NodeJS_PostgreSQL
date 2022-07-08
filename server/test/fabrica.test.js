@@ -11,6 +11,7 @@ const galpaoService = require('../service/galpaoService');
 const clienteService = require('../service/clienteService');
 const galpClienteService = require('../service/galpClienteService'); 
 const pessoaFisicaService = require('../service/pessoaFisicaService');
+const pessoaJuridicaService = require('../service/pessoaJuridicaService');
 
 const idTest1 = 106;
 
@@ -792,4 +793,61 @@ test('Should delete a pessoaFisica', async function () {
     const pessoaFisicas = await pessoaFisicaService.getPessoaFisicas();
 
     expect(pessoaFisicas).toHaveLength(9);
+});
+
+//pessoaJuridica
+test('Should get pessoaJuridicas', async function () {
+    const pessoaJuridica1 = await pessoaJuridicaService.savePessoaJuridica({
+        id_cliente: 1234,
+        cgc: 13892567000161
+    });
+
+    const response = await request('http://localhost:3000/pessoaJuridica', 'get');
+    const pessoaJuridica = response.data;
+
+    expect(pessoaJuridica).toHaveLength(11);
+
+    await pessoaJuridicaService.deletePessoaJuridica(pessoaJuridica1.id_cliente);
+});
+
+test.only('Should save pessoaJuridica', async function () {
+    const data = {
+        id_cliente: 1234,
+        cgc: 13892567000161
+    };
+
+    const response = await request('http://localhost:3000/pessoaJuridicaa', 'post', data);
+    const pessoaJuridica = response.data;
+
+    expect(pessoaJuridica.id_cliente).toBe(data.id_cliente);
+
+    await pessoaJuridicaService.deletePessoaJuridica(data.id_cliente);
+});
+
+test('Should update a pessoaJuridica', async function () {
+    const pessoaJuridica = await pessoaJuridicaService.savePessoaJuridica({
+        id_cliente: 1234,
+        cgc: 13892567000161
+    });
+
+    pessoaJuridica.cgc = 18500194000150;
+
+    await request(`http://localhost:3000/pessoaJuridica/${pessoaJuridica.id_cliente}`, 'put', pessoaJuridica);
+    const updatedPessoaJuridica = await pessoaJuridicaService.getPessoaJuridica(pessoaJuridica.id_cliente);
+
+    expect(updatedPessoaJuridica.cgc).toBe(pessoaJuridica.cgc);
+
+    await pessoaJuridicaService.deletePessoaJuridica(pessoaJuridica.id_cliente);
+});
+
+test('Should delete a pessoaJuridica', async function () {
+    const pessoaJuridica = await pessoaJuridicaService.savePessoaJuridica({
+        id_cliente: 1234,
+        cgc: 13892567000161
+    });
+
+    await request(`http://localhost:3000/pessoaJuridica/${pessoaJuridica.id_cliente}`, 'delete');
+    const pessoaJuridicas = await pessoaJuridicaService.getPessoaJuridicas();
+
+    expect(pessoaJuridicas).toHaveLength(10);
 });
