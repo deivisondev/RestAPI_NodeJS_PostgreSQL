@@ -676,7 +676,7 @@ test('Should delete a cliente', async function () {
 });
 
 // galpCliente
-test.only('Should get galpClientes', async function () {
+test('Should get galpClientes', async function () {
     const galpCliente1 = await galpClienteService.saveGalpCliente({
         id_local: 3668,
         id_cliente: 1234
@@ -710,7 +710,7 @@ test('Should update a galpCliente', async function () {
         id_cliente: 1234
     });
 
-    galpCliente.id_cliente = 3673;
+    galpCliente.id_cliente = 2834;
 
     await request(`http://localhost:3000/galpCliente/${galpCliente.id_local}`, 'put', galpCliente);
     const updatedGalpCliente = await galpClienteService.getGalpCliente(galpCliente.id_local);
@@ -720,7 +720,7 @@ test('Should update a galpCliente', async function () {
     await galpClienteService.deleteGalpCliente(galpCliente.id_local);
 });
 
-test('Should delete a galpCliente', async function () {
+test.only('Should delete a galpCliente', async function () {
     const galpCliente = await galpClienteService.saveGalpCliente({
         id_local: 3668,
         id_cliente: 1234
@@ -729,5 +729,5 @@ test('Should delete a galpCliente', async function () {
     await request(`http://localhost:3000/galpCliente/${galpCliente.id_local}`, 'delete');
     const galpClientes = await galpClienteService.getGalpClientes();
 
-    expect(galpClientes).toHaveLength(10);
+    expect(galpClientes).toHaveLength(16);
 });

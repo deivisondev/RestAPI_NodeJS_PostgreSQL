@@ -256,7 +256,7 @@ router.post('/galpCliente', async function (req, res) {
 
 router.put('/galpCliente/:id', async function (req, res) {
     const galpCliente = req.body;
-    await galpClienteaService.updateGalpCliente(req.params.id, galpCliente);
+    await galpClienteService.updateGalpCliente(req.params.id, galpCliente);
     res.end();
 });
 
