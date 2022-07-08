@@ -771,12 +771,12 @@ test('Should update a pessoaFisica', async function () {
         sexo: 'A'
     });
 
-    pessoaFisica.cic = 27691967146;
+    pessoaFisica.sexo = 'B';
 
     await request(`http://localhost:3000/pessoaFisica/${pessoaFisica.id_cliente}`, 'put', pessoaFisica);
     const updatedPessoaFisica = await pessoaFisicaService.getPessoaFisica(pessoaFisica.id_cliente);
 
-    expect(updatedpessoaFisica.cic).toBe(pessoaFisica.cic);
+    expect(updatedPessoaFisica.sexo).toBe(pessoaFisica.sexo);
 
     await pessoaFisicaService.deletePessoaFisica(pessoaFisica.id_cliente);
 });
