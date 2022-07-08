@@ -816,7 +816,7 @@ test.only('Should save pessoaJuridica', async function () {
         cgc: 13892567000161
     };
 
-    const response = await request('http://localhost:3000/pessoaJuridicaa', 'post', data);
+    const response = await request('http://localhost:3000/pessoaJuridica', 'post', data);
     const pessoaJuridica = response.data;
 
     expect(pessoaJuridica.id_cliente).toBe(data.id_cliente);
