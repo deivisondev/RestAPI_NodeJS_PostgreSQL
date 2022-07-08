@@ -810,7 +810,7 @@ test('Should get pessoaJuridicas', async function () {
     await pessoaJuridicaService.deletePessoaJuridica(pessoaJuridica1.id_cliente);
 });
 
-test.only('Should save pessoaJuridica', async function () {
+test('Should save pessoaJuridica', async function () {
     const data = {
         id_cliente: 1234,
         cgc: 13892567000161
@@ -830,7 +830,7 @@ test('Should update a pessoaJuridica', async function () {
         cgc: 13892567000161
     });
 
-    pessoaJuridica.cgc = 18500194000150;
+    pessoaJuridica.cgc = '18500194000150';
 
     await request(`http://localhost:3000/pessoaJuridica/${pessoaJuridica.id_cliente}`, 'put', pessoaJuridica);
     const updatedPessoaJuridica = await pessoaJuridicaService.getPessoaJuridica(pessoaJuridica.id_cliente);
